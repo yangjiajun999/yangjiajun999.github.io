@@ -1,0 +1,433 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="凡所有相，皆是虚妄。若见诸相非相，即见如来">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="MySQL">
+
+
+    <meta name="description" content="数据库命名规范
+所有数据库对象名称必须小写
+命名要做到见名识意，禁止使用MySQL保留关键字
+临时表以tmp_开头，备份表以bak_开头并以时间戳结尾
+所有存储相同数据的列名和列类型必须一致
+
+...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>MySQL数据库设计规范 | 凡所有相，皆是虚妄。若见诸相非相，即见如来</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="凡所有相，皆是虚妄。若见诸相非相，即见如来" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="影风">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                 <img src="/img/branding.png" alt="Snippet 博客主题" class="img-responsive center-block" style="width:400px">
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">凡所有相，皆是虚妄。若见诸相非相，即见如来</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/推荐/"><i class="fa "></i>推荐</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/前端/"><i class="fa "></i>前端</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/后端/"><i class="fa "></i>后端</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/数据库/"><i class="fa "></i>数据库</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/大数据/"><i class="fa "></i>大数据</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="MySQL数据库设计规范">
+            
+	            MySQL数据库设计规范
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/数据库/">数据库</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/MySQL/">MySQL</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2018/04/26</span>
+        </span>
+        
+    
+</div>
+            
+            
+            <p class="fa fa-exclamation-triangle warning">
+                本文于<strong>365</strong>天之前发表，文中内容可能已经过时。
+            </p>
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h3 id="数据库命名规范"><a href="#数据库命名规范" class="headerlink" title="数据库命名规范"></a>数据库命名规范</h3><ol>
+<li>所有数据库对象名称必须小写</li>
+<li>命名要做到见名识意，禁止使用MySQL保留关键字</li>
+<li>临时表以tmp_开头，备份表以bak_开头并以时间戳结尾</li>
+<li>所有存储相同数据的列名和列类型必须一致</li>
+</ol>
+<h3 id="数据库基本设计规范"><a href="#数据库基本设计规范" class="headerlink" title="数据库基本设计规范"></a>数据库基本设计规范</h3><ol>
+<li>所有表必须使用Innodb存储引擎<ol>
+<li>支持事务，行级锁，更好的恢复性，高并发下性能更好</li>
+<li>show engines;</li>
+</ol>
+</li>
+<li>数据库和表的字符集统一使用UTF-8<ol>
+<li>避免由于字符集转换产生乱码</li>
+<li>汉字占3个字节，ASCII码占1个字节</li>
+</ol>
+</li>
+<li>所有表和字段必须添加注释</li>
+<li>尽量控制单表数据量的大小，建议控制在500万行以内<ol>
+<li>可以用历史数据归档，分库分表等手段来控制数据量大小</li>
+</ol>
+</li>
+<li>谨慎使用MySQL分区表<ol>
+<li>分区表在物理上表现为多个文件，在逻辑上表现为一个表</li>
+<li>跨分区查询效率会低</li>
+<li>建议采用物理分表的方式管理大数据</li>
+</ol>
+</li>
+<li>尽量做到冷热数据分离，减小表宽度<ol>
+<li>减少磁盘I/O，保证热数据的内存缓存命中率</li>
+<li>更有效的利用缓存，避免读入无用的冷数据</li>
+<li>经常一起使用的列放到一个表中</li>
+</ol>
+</li>
+<li>禁止在表中建立预留字段</li>
+<li>禁止在数据库中存储图片，文件等二进制数据</li>
+<li>禁止在线上做数据库压力测试</li>
+<li>禁止从开发环境、测试环境直连生产环境数据库</li>
+</ol>
+<h3 id="数据库索引设计规范"><a href="#数据库索引设计规范" class="headerlink" title="数据库索引设计规范"></a>数据库索引设计规范</h3><ol>
+<li>限制每张表上的索引数量，建议单张表索引不超过5个</li>
+<li>禁止给表中的每一列都建立单独的索引</li>
+<li>每张表都必须有一个主键<ol>
+<li>不使用更新频繁的列作为主键</li>
+<li>不使用队列主键</li>
+<li>不使用UUID，MD5，HASH，字符串作为主键</li>
+<li>主键建议使用自增id值</li>
+</ol>
+</li>
+<li>WHERE从句、ORDER BY、GROUP BY、DISTINCT、多表JOIN中的列优先设置索引</li>
+<li>设置索引列的顺序<ol>
+<li>区分度最高的列放在联合索引的最左侧</li>
+<li>尽量把字段长度小的列放在联合索引的最左侧</li>
+<li>使用最频繁的列放到联合索引的左侧</li>
+</ol>
+</li>
+<li>避免建立冗余索引和重复索引<ol>
+<li>primary key(id)、index(id)、unique index(id)</li>
+<li>index(a,b,c)、index(a,b)、index(a)</li>
+</ol>
+</li>
+<li>对于频繁的查询优先考虑使用覆盖索引<ol>
+<li>避免Innodb表进行索引的二次查找</li>
+<li>可以把随机I/O变为顺序I/O加快查询效率</li>
+</ol>
+</li>
+<li>尽量避免使用外键<ol>
+<li>外键可用于保证数据的参照完整性，但建议在业务端实现</li>
+<li>外键会影响父表和子表的写操作从而降低性能</li>
+</ol>
+</li>
+</ol>
+<h3 id="数据库字段设计规范"><a href="#数据库字段设计规范" class="headerlink" title="数据库字段设计规范"></a>数据库字段设计规范</h3><ol>
+<li>优先选择符合存储需要的最小的数据类型<ol>
+<li>将字符串转化为数字类型存储，INET_ATON(‘255.255.255.255’)，INET_NTOA(4294967295)</li>
+</ol>
+</li>
+<li>对于非负整数应采用无符号整型进行存储</li>
+<li>VARCHAR(N)中的N指定要明确，过大的长度会消耗更多的内存</li>
+<li>避免使用TEXT、BLOB数据类型<ol>
+<li>建议把BLOB或者TEXT分离到单独的扩展表中</li>
+<li>TEXT或BLOB类型只能使用前缀索引</li>
+</ol>
+</li>
+<li>避免使用ENUM数据类型</li>
+<li>尽可能把所有列定义为NOT NULL<ol>
+<li>索引NULL列需要额外的空间来保存</li>
+<li>进行比较和计算要对NULL值做特别的处理</li>
+</ol>
+</li>
+<li>不要用字符串存储日期类型的数据<ol>
+<li>无法用日期函数进行计算和比较</li>
+<li>用字符串存储日期要占更多的空间</li>
+</ol>
+</li>
+<li>使用TIMESTAMP或DATETIME类型存储时间<ol>
+<li>TIMESTAMP占用4字节和INT相同，但比INT可读性高</li>
+<li>超出TIMESTAMP取值范围的时候用DATETIME</li>
+<li>TIMESTAMP 1970～01～01 ～ 2038-01-19</li>
+</ol>
+</li>
+<li>财务相关的金额类数据，必须使用decimal类型</li>
+</ol>
+<h3 id="SQL开发规范"><a href="#SQL开发规范" class="headerlink" title="SQL开发规范"></a>SQL开发规范</h3><ol>
+<li>建议使用预编译语句进行数据库操作</li>
+<li>避免数据类型的隐式转换<ol>
+<li>select phone from user where id = ‘1’</li>
+</ol>
+</li>
+<li>充分利用表上已经存在的索引<ol>
+<li>避免使用双%号的查询条件</li>
+<li>使用left join 或 not exsists 优化not in操作</li>
+</ol>
+</li>
+<li>禁止跨库查询</li>
+<li>禁止使用SELECT *，必须使用SELECT &lt;字段列表&gt; 查询</li>
+<li>禁止使用不含字段列表的INSERT语句</li>
+<li>避免使用子查询，可以把子查询优化为join操作</li>
+<li>避免使用JOIN关联太多的表，建议不超过5个</li>
+<li>合并多个相同操作到一起，减少同数据库交互次数</li>
+<li>使用in代替or，in的值不要超过500，in操作可以利用索引</li>
+<li>禁止使用order by rand() 进行随机排序</li>
+<li>WHERE从句中禁止队列进行函数转换和计算<ol>
+<li>where date(time) = ‘20160901’</li>
+<li>where time &gt;= ‘20160901’ and createtime &lt; ‘20160902’</li>
+</ol>
+</li>
+<li>在明显不会有重复值时使用UNION ALL，而不是UNION</li>
+<li>拆分复杂的大SQL为多个小SQL<ol>
+<li>一个SQL只能使用一个CPU进行计算</li>
+</ol>
+</li>
+</ol>
+<h3 id="数据库操作规范"><a href="#数据库操作规范" class="headerlink" title="数据库操作规范"></a>数据库操作规范</h3><ol>
+<li>超过100万行的批量写操作，要分批多次进行操作<ol>
+<li>大批量操作可能会造成严重的主从延迟</li>
+<li>binlog日志为ROW格式会产生大量的日志</li>
+<li>避免产生大事务操作</li>
+</ol>
+</li>
+<li>对大表数据结构的修改要谨慎，会造成严重的锁表操作<ol>
+<li>使用pt-online-schema-change修改表结构</li>
+</ol>
+</li>
+<li>禁止为程序使用的账号赋予super权限</li>
+<li>程序使用的账号原则上不准有drop权限</li>
+</ol>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">影风</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2019/04/25/hello-world/" class="pre-post btn btn-default" title="Hello World">
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">Hello World</span>
+        </a>
+    
+    
+</div>
+
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库命名规范"><span class="toc-text">数据库命名规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库基本设计规范"><span class="toc-text">数据库基本设计规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库索引设计规范"><span class="toc-text">数据库索引设计规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库字段设计规范"><span class="toc-text">数据库字段设计规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL开发规范"><span class="toc-text">SQL开发规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库操作规范"><span class="toc-text">数据库操作规范</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>
