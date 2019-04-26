@@ -316,7 +316,7 @@
 <li>禁止使用order by rand() 进行随机排序</li>
 <li>WHERE从句中禁止队列进行函数转换和计算<ol>
 <li>where date(time) = ‘20160901’</li>
-<li>where time &gt;= ‘20160901’ and createtime &lt; ‘20160902’</li>
+<li>where createtime &gt;= ‘20160901’ and createtime &lt; ‘20160902’</li>
 </ol>
 </li>
 <li>在明显不会有重复值时使用UNION ALL，而不是UNION</li>
