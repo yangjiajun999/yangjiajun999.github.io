@@ -1,0 +1,407 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="凡所有相，皆是虚妄。若见诸相非相，即见如来">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="MySQL">
+
+
+    <meta name="description" content="MySQL分区特点在逻辑上为一个表，在物理上存储在多个文件中
+为什么要分区
+分区可以在一个表中存储比单个磁盘或文件系统分区上的数据更多的数据，因为我们可以将分区表存储在不同物理磁盘上
+对已过期或...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>MySQL数据库常见优化 | 凡所有相，皆是虚妄。若见诸相非相，即见如来</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="凡所有相，皆是虚妄。若见诸相非相，即见如来" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="影风">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                 <img src="/img/branding.png" alt="Snippet 博客主题" class="img-responsive center-block" style="width:400px">
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">凡所有相，皆是虚妄。若见诸相非相，即见如来</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/推荐/"><i class="fa "></i>推荐</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/前端/"><i class="fa "></i>前端</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/后端/"><i class="fa "></i>后端</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/数据库/"><i class="fa "></i>数据库</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/运维/"><i class="fa "></i>运维</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/大数据/"><i class="fa "></i>大数据</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="MySQL数据库常见优化">
+            
+	            MySQL数据库常见优化
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/数据库/">数据库</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/MySQL/">MySQL</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2018/04/27</span>
+        </span>
+        
+    
+</div>
+            
+            
+            <p class="fa fa-exclamation-triangle warning">
+                本文于<strong>374</strong>天之前发表，文中内容可能已经过时。
+            </p>
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h2 id="MySQL分区"><a href="#MySQL分区" class="headerlink" title="MySQL分区"></a>MySQL分区</h2><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><p>在逻辑上为一个表，在物理上存储在多个文件中</p>
+<h3 id="为什么要分区"><a href="#为什么要分区" class="headerlink" title="为什么要分区"></a>为什么要分区</h3><ol>
+<li>分区可以在一个表中存储比单个磁盘或文件系统分区上的数据更多的数据，因为我们可以将分区表存储在不同物理磁盘上</li>
+<li>对已过期或者不需要保存的数据，可以通过删除与这些数据有关的分区来快速删除数据，他的效率远比delete高</li>
+<li>优化查询，在where子句中包含分区条件时，可以只扫描必要的一个或者多个分区来提高查询效率<br>例：SELECT * FROM t PARTITION（p0，p1）WHERE c<br>仅选择与WHERE条件匹配的分区p0和p1中的那些行<br>在这种情况下，MySQL不检查表t的任何其他分区  </li>
+<li>涉及聚合函数SUM()、COUNT()的查询时，可以容易的在每个分区上并行处理<br>例：SELECT salesperson_id，COUNT（orders）as order_total FROM sales GROUP BY salesperson_id<br>会在每个分区上都同时运行查询</li>
+<li>凭借在多个磁盘上传播数据，实现更高的查询吞吐量</li>
+</ol>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>一个表最多只能有1024个分区，同一个分区表的所有分区必须使用相同存储引擎，分区表无法使用外键约束</p>
+<h3 id="3种常用分区类型"><a href="#3种常用分区类型" class="headerlink" title="3种常用分区类型"></a>3种常用分区类型</h3><h4 id="HASH分区"><a href="#HASH分区" class="headerlink" title="HASH分区"></a>HASH分区</h4><ul>
+<li>根据MOD（分区键，分区数）的值把数据行存储到表的不同分区中</li>
+<li>数据可以平均的分布在各个分区表中</li>
+<li>HASH分区的键值必须是一个INT类型的值，或是通过函数可以转为INT类型<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`login_log`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">10</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`login_time`</span> <span class="built_in">timestamp</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span> <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CURRENT_TIMESTAMP</span>,</span><br><span class="line">  <span class="string">`login_ip`</span> <span class="built_in">int</span>(<span class="number">10</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`login_type`</span> <span class="built_in">tinyint</span>(<span class="number">4</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span></span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4</span><br><span class="line"><span class="keyword">PARTITION</span> <span class="keyword">BY</span> <span class="keyword">HASH</span> (<span class="keyword">id</span>)</span><br><span class="line"><span class="keyword">PARTITIONS</span> <span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`login_log`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">10</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`login_time`</span> <span class="built_in">timestamp</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span> <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CURRENT_TIMESTAMP</span>,</span><br><span class="line">  <span class="string">`login_ip`</span> <span class="built_in">int</span>(<span class="number">10</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`login_type`</span> <span class="built_in">tinyint</span>(<span class="number">4</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span></span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4</span><br><span class="line"><span class="keyword">PARTITION</span> <span class="keyword">BY</span> <span class="keyword">HASH</span> (<span class="keyword">UNIX_TIMESTAMP</span>(login_time))</span><br><span class="line"><span class="keyword">PARTITIONS</span> <span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">USE</span> information_schema;</span><br><span class="line"><span class="keyword">SELECT</span> PARTITION_NAME,TABLE_ROWS</span><br><span class="line"><span class="keyword">FROM</span> INFORMATION_SCHEMA.PARTITIONS</span><br><span class="line"><span class="keyword">WHERE</span> TABLE_NAME = <span class="string">'login_log'</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="RANGE分区"><a href="#RANGE分区" class="headerlink" title="RANGE分区"></a>RANGE分区</h4><ol>
+<li>根据分区键值的范围把数据行存储到表的不同分区中</li>
+<li>多个分区的范围要连续，但是不能重叠</li>
+<li>默认情况下使用VALUES LESS THAN属性，即每个分区不包括指定的那个值</li>
+</ol>
+<ul>
+<li>使用场景<ul>
+<li>分区键为日期或时间类型</li>
+<li>所有查询中都包括分区键</li>
+<li>定期按分区范围清理历史数据<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`login_log`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">10</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`login_time`</span> <span class="built_in">timestamp</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span> <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CURRENT_TIMESTAMP</span>,</span><br><span class="line">  <span class="string">`login_ip`</span> <span class="built_in">int</span>(<span class="number">10</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`login_type`</span> <span class="built_in">tinyint</span>(<span class="number">4</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span></span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4</span><br><span class="line"><span class="keyword">PARTITION</span> <span class="keyword">BY</span> <span class="keyword">RANGE</span> (<span class="keyword">id</span>) (</span><br><span class="line">  <span class="keyword">PARTITION</span> p0 <span class="keyword">VALUES</span> <span class="keyword">LESS</span> <span class="keyword">THAN</span> (<span class="number">3</span>),</span><br><span class="line">  <span class="keyword">PARTITION</span> p1 <span class="keyword">VALUES</span> <span class="keyword">LESS</span> <span class="keyword">THAN</span> (<span class="number">6</span>),</span><br><span class="line">  <span class="keyword">PARTITION</span> p2 <span class="keyword">VALUES</span> <span class="keyword">LESS</span> <span class="keyword">THAN</span> (<span class="number">9</span>),</span><br><span class="line">  <span class="keyword">PARTITION</span> p4 <span class="keyword">VALUES</span> <span class="keyword">LESS</span> <span class="keyword">THAN</span> MAXVALUE</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="LIST分区"><a href="#LIST分区" class="headerlink" title="LIST分区"></a>LIST分区</h4><ol>
+<li>按分区键取值的列表进行分区</li>
+<li>同范围分区一样，各分区的列表值不能重复</li>
+<li>每一行数据必须能找到对应的分区列表，否则数据无法插入<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`login_log`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">10</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`login_time`</span> <span class="built_in">timestamp</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span> <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CURRENT_TIMESTAMP</span>,</span><br><span class="line">  <span class="string">`login_ip`</span> <span class="built_in">int</span>(<span class="number">10</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`login_type`</span> <span class="built_in">tinyint</span>(<span class="number">4</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span></span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4</span><br><span class="line"><span class="keyword">PARTITION</span> <span class="keyword">BY</span> <span class="keyword">LIST</span> (login_type) (</span><br><span class="line">  <span class="keyword">PARTITION</span> p0 <span class="keyword">VALUES</span> <span class="keyword">IN</span> (<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>),</span><br><span class="line">  <span class="keyword">PARTITION</span> p1 <span class="keyword">VALUES</span> <span class="keyword">IN</span> (<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">/*删除分区*/</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> login_log <span class="keyword">DROP</span> <span class="keyword">PARTITION</span> p0</span><br><span class="line"></span><br><span class="line"><span class="comment">/*迁移分区数据*/</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> login_log EXCHAGE <span class="keyword">PARTITION</span> p1 <span class="keyword">with</span> <span class="keyword">TABLE</span> arch_login_log</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
+<li>结合业务场景选择分区方式，应避免跨分区查询</li>
+<li>对分区表查询最好在WHERE从句中包含分区键</li>
+<li>具有主键或唯一索引的表，主键或唯一索引必须是分区键的一部分</li>
+</ol>
+<h2 id="执行计划"><a href="#执行计划" class="headerlink" title="执行计划"></a>执行计划</h2><h3 id="explain结果分析"><a href="#explain结果分析" class="headerlink" title="explain结果分析"></a>explain结果分析</h3><h4 id="ID列"><a href="#ID列" class="headerlink" title="ID列"></a>ID列</h4><ul>
+<li>ID列表示SELECT语句的顺序</li>
+<li>ID值相同时，执行顺序由上至下</li>
+<li>ID值越大优先级越高，越先被执行</li>
+</ul>
+<h4 id="SELECT-TYPE列"><a href="#SELECT-TYPE列" class="headerlink" title="SELECT_TYPE列"></a>SELECT_TYPE列</h4><ul>
+<li>SIMPLE：不包含子查询或UNION操作的查询</li>
+<li>PRIMARY：查询中如果包含子查询，那么最外层的查询被标记为PRIMARY</li>
+<li>SUBQUERY：SEL                            ECT列表中的子查询</li>
+<li>DEPENDENT SUBQUERY：依赖外部结果的子查询</li>
+<li>UNION：UNION操作的第二个或是之后的查询的值为UNION</li>
+<li>DEPENDENT UNION：当UNION作为子查询时，第二或是第二个后的查询</li>
+<li>UNION RESULT：UNION产生的结果集</li>
+<li>DERIVED：出现在FROM子句中的子查询</li>
+</ul>
+<h4 id="TABLE列"><a href="#TABLE列" class="headerlink" title="TABLE列"></a>TABLE列</h4><ul>
+<li>输出数据行所在的表名称</li>
+</ul>
+<h4 id="PARTITIONS列"><a href="#PARTITIONS列" class="headerlink" title="PARTITIONS列"></a>PARTITIONS列</h4><ul>
+<li>对于分区表，显示查询的分区ID</li>
+<li>对于非分区表，显示为NULL</li>
+</ul>
+<h4 id="TYPE列"><a href="#TYPE列" class="headerlink" title="TYPE列"></a>TYPE列</h4><p>性能由高到低排列</p>
+<ul>
+<li>system：const联接类型的一个特例当查询的表只有一行时使用</li>
+<li>const：表中有且只有一个匹配的行时使用,如对主键或是唯一索引的查询最高的联接方式</li>
+<li>eq_ref：唯一索或主键引查找,对于每个索引键,表中只有一条记录与之匹配</li>
+<li>ref：非唯一索引查找,返回匹配某个单独值的所有行。</li>
+<li>ref_or_null：类似于ref类型的查询,但是附加了对NULL值列的查询</li>
+<li>index_merge：该联接类型表示使用了索引合并优化方法</li>
+<li>range：索引范围扫描,常见于between, &gt;、&lt;这样的查询条件</li>
+<li>index：全索引扫描,同ALL的区别是,遍历的是索引树</li>
+<li>ALL：全表扫描,这是效率最差的联接方式</li>
+</ul>
+<h4 id="Extra列"><a href="#Extra列" class="headerlink" title="Extra列"></a>Extra列</h4><ul>
+<li>Distinct：优化distinct操作,在找到第一匹配的元组后即停止找同样值的动作</li>
+<li>Not exists：使用not exists来优化查询</li>
+<li>Using filesort：使用额外操作进行排序，通常会出现在order by或group by查询</li>
+<li>Using index：使用了覆盖索引进行查询</li>
+<li>Using temporary：使用临时表来处理查询，常见于排序，子查询和分组查询</li>
+<li>Using where：使用WHERE条件来过滤数据</li>
+<li>select tables optimized away：直接通过索引来获得数据，不用访问表</li>
+</ul>
+<h4 id="POSSIBLE-KEYS列"><a href="#POSSIBLE-KEYS列" class="headerlink" title="POSSIBLE_KEYS列"></a>POSSIBLE_KEYS列</h4><ul>
+<li>指出MySQL能使用那些索引来优化查询</li>
+<li>查询列所涉及到的列上的索引都会被列出,但不一定会被使用</li>
+</ul>
+<h4 id="KEY列"><a href="#KEY列" class="headerlink" title="KEY列"></a>KEY列</h4><ul>
+<li>查询优化器优化查询实际所使用的索引</li>
+<li>如果没有可用的索引，则显示为NULL</li>
+<li>如查询使用了覆盖索引，则该索引仅出现在Key中</li>
+</ul>
+<h4 id="KEY-LEN列"><a href="#KEY-LEN列" class="headerlink" title="KEY_LEN列"></a>KEY_LEN列</h4><ul>
+<li>表示索引字段的最大可能长度</li>
+<li>KEY_LEN的长度由字段定义计算而来，并非数据的实际长度</li>
+</ul>
+<h4 id="Ref列"><a href="#Ref列" class="headerlink" title="Ref列"></a>Ref列</h4><ul>
+<li>表示列或常量被用于查找索引列上的值</li>
+</ul>
+<h4 id="rows列"><a href="#rows列" class="headerlink" title="rows列"></a>rows列</h4><ul>
+<li>表示MySQL通过索引统计信息，估算的所需读取的行数</li>
+<li>rows值的大小是个统计抽样结果，并不十分准确</li>
+</ul>
+<h4 id="Filtered列"><a href="#Filtered列" class="headerlink" title="Filtered列"></a>Filtered列</h4><ul>
+<li>表示返回结果的行数占需读取行数的百分比</li>
+<li>Filtered列的值越大越好</li>
+<li>Filtered列的值依赖统计信息</li>
+</ul>
+<h3 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h3><ul>
+<li>无法展示存储过程、触发器、UDF对查询的影响</li>
+<li>无法使用EXPLAIN对存储过程进行分析</li>
+<li>早起版本的MySQL只支持SELECT语句</li>
+</ul>
+<h3 id="分页查询优化"><a href="#分页查询优化" class="headerlink" title="分页查询优化"></a>分页查询优化</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> product_info.supplier_id, product_info.product_name, product_supplier_info.supplier_name</span><br><span class="line"><span class="keyword">from</span> product_info</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> product_supplier_info</span><br><span class="line"><span class="keyword">on</span> product_info.supplier_id = product_supplier_info.supplier_id </span><br><span class="line"><span class="keyword">limit</span> <span class="number">100</span>, <span class="number">500</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> product_info <span class="keyword">add</span> <span class="keyword">index</span> idx_supplier_id (supplier_id)</span><br><span class="line"></span><br><span class="line"><span class="comment">/*增加联合索引达到覆盖索引效果*/</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> product_info <span class="keyword">add</span> <span class="keyword">index</span> idx_product_name_supplier_id (supplier_id, product_name)</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> product_supplier_info <span class="keyword">add</span> <span class="keyword">index</span> idx_supplier_name_supplier_id (supplier_id, supplier_name)</span><br></pre></td></tr></table></figure>
+<h2 id="慢查询日志"><a href="#慢查询日志" class="headerlink" title="慢查询日志"></a>慢查询日志</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*查看是否开启了慢查询日志*/</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'%slow_query_log%'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*开启慢查询日志*/</span></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> slow_query_log = <span class="keyword">on</span>;</span><br><span class="line"><span class="comment">/*未使用索引的查询也被记录到慢查询日志中*/</span></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> log_queries_not_using_indexes = <span class="keyword">on</span>;</span><br><span class="line"><span class="comment">/*慢查询日志存储路径*/</span></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> slow_query_log_file = <span class="string">'/var/lib/mysql/slow_query.log'</span>;</span><br><span class="line"><span class="comment">/*当查询时间多于设定的阈值时，记录日志*/</span></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> long_query_time = <span class="number">0.001</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*shell 查看慢查询日志*/</span></span><br><span class="line">mysqldumpslow 3de27981f248-slow.log</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">time=`date -d yesterday + <span class="string">"%Y-%m-%d"</span>`</span><br><span class="line">host=<span class="string">"127.0.0.1"</span></span><br><span class="line">user=<span class="string">"root"</span></span><br><span class="line">passwd=<span class="string">"123456"</span></span><br><span class="line"><span class="comment">#提前创建好一个存放目录：/var/lib/mysql/slow_log/</span></span><br><span class="line">mv /var/lib/mysql/slow_query.log /var/lib/mysql/slow_log/slow_query_<span class="variable">$time</span>.<span class="built_in">log</span></span><br><span class="line">mysql -u<span class="variable">$user</span> -p<span class="variable">$passwd</span> -e <span class="string">"set global slow_query_log_file='/var/lib/mysql/slow_query.log';"</span></span><br><span class="line"><span class="comment">### 每天0点执行该脚本</span></span><br></pre></td></tr></table></figure>
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">影风</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2018/04/29/CentOS搭建Redis集群/" class="pre-post btn btn-default" title="CentOS搭建Redis集群">
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">CentOS搭建Redis集群</span>
+        </a>
+    
+    
+        <a href="/2018/04/26/MySQL数据库设计规范/" class="next-post btn btn-default" title="MySQL数据库设计规范">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">MySQL数据库设计规范</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL分区"><span class="toc-text">MySQL分区</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特点"><span class="toc-text">特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要分区"><span class="toc-text">为什么要分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缺点"><span class="toc-text">缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3种常用分区类型"><span class="toc-text">3种常用分区类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HASH分区"><span class="toc-text">HASH分区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RANGE分区"><span class="toc-text">RANGE分区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LIST分区"><span class="toc-text">LIST分区</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意事项"><span class="toc-text">注意事项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#执行计划"><span class="toc-text">执行计划</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#explain结果分析"><span class="toc-text">explain结果分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ID列"><span class="toc-text">ID列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SELECT-TYPE列"><span class="toc-text">SELECT_TYPE列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TABLE列"><span class="toc-text">TABLE列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PARTITIONS列"><span class="toc-text">PARTITIONS列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TYPE列"><span class="toc-text">TYPE列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Extra列"><span class="toc-text">Extra列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#POSSIBLE-KEYS列"><span class="toc-text">POSSIBLE_KEYS列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#KEY列"><span class="toc-text">KEY列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#KEY-LEN列"><span class="toc-text">KEY_LEN列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Ref列"><span class="toc-text">Ref列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#rows列"><span class="toc-text">rows列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Filtered列"><span class="toc-text">Filtered列</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#限制"><span class="toc-text">限制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分页查询优化"><span class="toc-text">分页查询优化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#慢查询日志"><span class="toc-text">慢查询日志</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>
