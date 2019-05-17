@@ -1,0 +1,568 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="凡所有相，皆是虚妄。若见诸相非相，即见如来">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="shell">
+
+
+    <meta name="description" content="变量替换
+${变量名#匹配规则}：从变量开头进行规则匹配，将符合最短的数据删除
+${变量名##匹配规则}：从变量开头进行规则匹配，将符合最长的数据删除
+${变量名%匹配规则}：从变量尾部进行规则...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>Shell编程基础 | 凡所有相，皆是虚妄。若见诸相非相，即见如来</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="凡所有相，皆是虚妄。若见诸相非相，即见如来" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="影风">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                 <img src="/img/branding.png" alt="Snippet 博客主题" class="img-responsive center-block" style="width:400px">
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">凡所有相，皆是虚妄。若见诸相非相，即见如来</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/推荐/"><i class="fa "></i>推荐</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/前端/"><i class="fa "></i>前端</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/后端/"><i class="fa "></i>后端</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/数据库/"><i class="fa "></i>数据库</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/运维/"><i class="fa "></i>运维</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/大数据/"><i class="fa "></i>大数据</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Shell编程基础">
+            
+	            Shell编程基础
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/运维/">运维</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/shell/">shell</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2018/05/18</span>
+        </span>
+        
+    
+</div>
+            
+            
+            <p class="fa fa-exclamation-triangle warning">
+                本文于<strong>364</strong>天之前发表，文中内容可能已经过时。
+            </p>
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h3 id="变量替换"><a href="#变量替换" class="headerlink" title="变量替换"></a>变量替换</h3><ol>
+<li>${变量名#匹配规则}：从变量开头进行规则匹配，将符合最短的数据删除</li>
+<li>${变量名##匹配规则}：从变量开头进行规则匹配，将符合最长的数据删除</li>
+<li>${变量名%匹配规则}：从变量尾部进行规则匹配，将符合最短的数据删除</li>
+<li>${变量名%%匹配规则}：从变量尾部进行规则匹配，将符合最长的数据删除</li>
+<li>${变量名/旧字符串/新字符串}：变量内容符合旧字符串则，则第一个旧字符串会被新字符串取代</li>
+<li>${变量名//旧字符串/新字符串}：变量内容符合旧字符串则，则全部的旧字符串会被新字符串取代<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">message=<span class="string">"I love you, Do you love me"</span></span><br><span class="line">a1=<span class="variable">$&#123;message#*ov&#125;</span></span><br><span class="line">a2=<span class="variable">$&#123;message##*ov&#125;</span></span><br><span class="line">a3=<span class="variable">$&#123;message%ov*&#125;</span></span><br><span class="line">a4=<span class="variable">$&#123;message%%ov*&#125;</span></span><br><span class="line">a5=<span class="variable">$&#123;message/ov/OV&#125;</span></span><br><span class="line">a6=<span class="variable">$&#123;message//ov/OV&#125;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"a1:<span class="variable">$&#123;a1&#125;</span>"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"a2:<span class="variable">$&#123;a2&#125;</span>"</span><span class="comment">#</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"a3:<span class="variable">$&#123;a3&#125;</span>"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"a4:<span class="variable">$&#123;a4&#125;</span>"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"a5:<span class="variable">$&#123;a5&#125;</span>"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"a6:<span class="variable">$&#123;a6&#125;</span>"</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="变量测试与内容替换"><a href="#变量测试与内容替换" class="headerlink" title="变量测试与内容替换"></a>变量测试与内容替换</h3><p><img src="http://note.youdao.com/yws/res/8774/6C60A4E2E1DF469CB69244FDA2A55931" alt="image"></p>
+<h3 id="计算字符串的长度"><a href="#计算字符串的长度" class="headerlink" title="计算字符串的长度"></a>计算字符串的长度</h3><ol>
+<li>“${ #string }”</li>
+<li>expr length “$string”  （string有空格，则必须加双引号）</li>
+</ol>
+<h3 id="获取子串在字符串中的索引位置"><a href="#获取子串在字符串中的索引位置" class="headerlink" title="获取子串在字符串中的索引位置"></a>获取子串在字符串中的索引位置</h3><ol>
+<li>expr index $string $substring</li>
+</ol>
+<h3 id="计算子串长度"><a href="#计算子串长度" class="headerlink" title="计算子串长度"></a>计算子串长度</h3><ol>
+<li>expr match $string substr</li>
+</ol>
+<h3 id="抽取子串"><a href="#抽取子串" class="headerlink" title="抽取子串"></a>抽取子串</h3><ol>
+<li>${string:position}：从string中的position开始</li>
+<li>${string:position:length}：从position开始，匹配长度为length</li>
+<li>${string:-position}：从右边开始匹配</li>
+<li>${string:(position)}：从左边开始匹配</li>
+<li>expr substr $string $position $length：从position开始，匹配长度为length</li>
+</ol>
+<h3 id="综合实例"><a href="#综合实例" class="headerlink" title="综合实例"></a>综合实例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env bash</span></span><br><span class="line"></span><br><span class="line">string=<span class="string">"Bigdata process framework is Hadoop,Hadoop is an open source project"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> tips_info</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"******************************************"</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"***  (1) 打印字符串长度"</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"***  (2) 在整个字符串中删除Hadoop"</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"***  (3) 替换第一个Hadoop为Mapreduce"</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"***  (4) 替换全部Hadoop为Mapreduce"</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"******************************************"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> print_len</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> [ -z <span class="string">"<span class="variable">$string</span>"</span> ];</span><br><span class="line">	<span class="keyword">then</span></span><br><span class="line">		<span class="built_in">echo</span> <span class="string">"错误，字符串为空"</span></span><br><span class="line">		<span class="built_in">exit</span> 1</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="built_in">echo</span> <span class="string">"<span class="variable">$&#123;#string&#125;</span>"</span></span><br><span class="line">	<span class="keyword">fi</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> del_hadoop</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> [ -z <span class="string">"<span class="variable">$string</span>"</span> ];</span><br><span class="line">	<span class="keyword">then</span></span><br><span class="line">		<span class="built_in">echo</span> <span class="string">"错误，字符串为空"</span></span><br><span class="line">		<span class="built_in">exit</span> 1</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="built_in">echo</span> <span class="string">"<span class="variable">$&#123;string//Hadoop/&#125;</span>"</span></span><br><span class="line">	<span class="keyword">fi</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> rep_hadoop_mapreduce_first</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> [ -z <span class="string">"<span class="variable">$string</span>"</span> ];</span><br><span class="line">	<span class="keyword">then</span></span><br><span class="line">		<span class="built_in">echo</span> <span class="string">"错误，字符串为空"</span></span><br><span class="line">		<span class="built_in">exit</span> 1</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="built_in">echo</span> <span class="string">"<span class="variable">$&#123;string/Hadoop/Mapreduce&#125;</span>"</span></span><br><span class="line">	<span class="keyword">fi</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> rep_hadoop_mapreduce_all</span><br><span class="line">&#123;</span><br><span class="line">        <span class="keyword">if</span> [ -z <span class="string">"<span class="variable">$string</span>"</span> ];</span><br><span class="line">        <span class="keyword">then</span></span><br><span class="line">                <span class="built_in">echo</span> <span class="string">"错误，字符串为空"</span></span><br><span class="line">                <span class="built_in">exit</span> 1</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">                <span class="built_in">echo</span> <span class="string">"<span class="variable">$&#123;string//Hadoop/Mapreduce&#125;</span>"</span></span><br><span class="line">        <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">true</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"【字符串内容为\"<span class="variable">$string</span>\"】"</span></span><br><span class="line">tips_info</span><br><span class="line"><span class="built_in">read</span> -p <span class="string">"请输入您需要操作的编号【1，2，3，4，q|Q】"</span> choice</span><br><span class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$choice</span>"</span> <span class="keyword">in</span></span><br><span class="line">	1)</span><br><span class="line">		<span class="built_in">echo</span></span><br><span class="line">		<span class="built_in">echo</span> <span class="string">"字符串的长度为: `print_len`"</span></span><br><span class="line">		<span class="built_in">echo</span></span><br><span class="line">		<span class="built_in">continue</span></span><br><span class="line">		;;</span><br><span class="line">	2)</span><br><span class="line">		<span class="built_in">echo</span></span><br><span class="line">		<span class="built_in">echo</span> <span class="string">"删除Hadoop后的字符串为：`del_hadoop`"</span></span><br><span class="line">		<span class="built_in">echo</span></span><br><span class="line">		;;</span><br><span class="line">	3)</span><br><span class="line">		<span class="built_in">echo</span> </span><br><span class="line">		<span class="built_in">echo</span> <span class="string">"替换第一个Hadoop的字符串为：`rep_hadoop_mapreduce_first`"</span></span><br><span class="line">		<span class="built_in">echo</span></span><br><span class="line">		;;</span><br><span class="line">	4)</span><br><span class="line">		<span class="built_in">echo</span> </span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"替换第一个Hadoop的字符串为：`rep_hadoop_mapreduce_all`"</span></span><br><span class="line">        <span class="built_in">echo</span></span><br><span class="line">		;;</span><br><span class="line">	q|Q)</span><br><span class="line">		<span class="built_in">exit</span> 0</span><br><span class="line">		;;</span><br><span class="line">	*)</span><br><span class="line">		<span class="built_in">echo</span> <span class="string">"输入错误请重新输入"</span></span><br><span class="line">		<span class="built_in">continue</span>	</span><br><span class="line">		;;</span><br><span class="line"><span class="keyword">esac</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<p>命令替换</p>
+<ol>
+<li>`command`</li>
+<li>$(command)<blockquote>
+<p><code></code>和$()两者是等价的，需要注意的是$(())主要用来进行证书运算，包括加减乘除，引用变量前面可以加$，也可以不加$</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### Example1:列出所有系统用户</span></span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">index=1</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> user <span class="keyword">in</span> `cat /etc/passwd | cut -d <span class="string">":"</span> -f 1`</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"This is <span class="variable">$index</span> user: <span class="variable">$user</span>"</span></span><br><span class="line">	index=$((<span class="variable">$index</span> + 1))</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#### 年份计算</span></span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"This year have passed <span class="variable">$(date +%j)</span> days"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"This year have passed <span class="variable">$(($(date +%j)</span>/7)) weeks"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"There is <span class="variable">$((365 - $(date +%j)</span>)) days before new year"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"There is <span class="variable">$(((365 - $(date +%j)</span>)/7)) weeks before new year"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#### 启动nginx</span></span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">nginx_process_num=$(ps -ef | grep nginx | grep -v grep | wc -l)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$nginx_process_num</span> -eq 0 ];<span class="keyword">then</span></span><br><span class="line">	systemctl start nginx</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ol>
+<h3 id="declare-和-typeset命令"><a href="#declare-和-typeset命令" class="headerlink" title="declare 和 typeset命令"></a>declare 和 typeset命令</h3><ol>
+<li>两者等价</li>
+<li>都是用来定义变量类型</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-r</td>
+<td>将变量设为只读</td>
+</tr>
+<tr>
+<td>-i</td>
+<td>将变量设为整数</td>
+</tr>
+<tr>
+<td>-a</td>
+<td>将变量定义为数组</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>显示此脚本前定义过的所有函数及内容</td>
+</tr>
+<tr>
+<td>-F</td>
+<td>仅显示此脚本前定义过的函数名</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>将变量声明为环境变量</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##定义数组</span></span><br><span class="line">decalre -a</span><br><span class="line"></span><br><span class="line"><span class="comment">##给数组赋值</span></span><br><span class="line">array=(<span class="string">"yang"</span> <span class="string">"zhang"</span> <span class="string">"zhou"</span> <span class="string">"ding"</span> <span class="string">"yuan"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##输出数组全部内容</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;array[@]&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##输出数组下标为1的元素</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;array[1]&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##获取数组长度</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;#array&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##输出数组下标为1的元素的长度</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;#array[1]&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##清空数组</span></span><br><span class="line"><span class="built_in">unset</span> array</span><br><span class="line"></span><br><span class="line"><span class="comment">##清空数组元素</span></span><br><span class="line"><span class="built_in">unset</span> array[1]</span><br><span class="line"></span><br><span class="line"><span class="comment">##显示数组索引从1开始从3结束的元素</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;array[@]:1:3&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##将数组汇中所有元素中的a字母替换成A</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;array[@]/a/A&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##数组遍列</span></span><br><span class="line"><span class="keyword">for</span> v <span class="keyword">in</span> <span class="variable">$&#123;array[@]&#125;</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="variable">$v</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<h3 id="数学运算"><a href="#数学运算" class="headerlink" title="数学运算"></a>数学运算</h3><ol>
+<li>expr $num1 operator $num2</li>
+<li>$(($num1 operator $num2))</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>num1 \</td>
+<td>num2</td>
+<td>num1不为空且非0，返回num1，否则返回num2</td>
+</tr>
+<tr>
+<td>num1 &amp; num2</td>
+<td>num1不为空且非0，返回num1，否则返回0</td>
+</tr>
+<tr>
+<td>num1 &lt; num2</td>
+<td>num1小于num2，返回1，否则返回0</td>
+</tr>
+<tr>
+<td>num1 &lt;= num2</td>
+<td>num1小于等于num2，返回1，否则返回0</td>
+</tr>
+<tr>
+<td>num1 = num2</td>
+<td>num1等于num2，返回1，否则返回0</td>
+</tr>
+<tr>
+<td>num1 != num2</td>
+<td>num1不等于num2，返回1，否则返回0</td>
+</tr>
+<tr>
+<td>num1 &gt; num2</td>
+<td>num1大于num2，返回1，否则返回0</td>
+</tr>
+<tr>
+<td>num1 &gt;= num2</td>
+<td>num1大于等于num2，返回1，否则返回0</td>
+</tr>
+<tr>
+<td>num1 + num2</td>
+<td>求和</td>
+</tr>
+<tr>
+<td>num1 - num2</td>
+<td>求差</td>
+</tr>
+<tr>
+<td>num1 * num2</td>
+<td>求积</td>
+</tr>
+<tr>
+<td>num1 / num2</td>
+<td>求商</td>
+</tr>
+<tr>
+<td>num1 % num2</td>
+<td>求余</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">true</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">	<span class="built_in">read</span> -p <span class="string">"请输入一个正整数: "</span> num</span><br><span class="line"></span><br><span class="line">	expr <span class="variable">$num</span> + 1 &amp;&gt; /dev/null</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> [ $? -eq 0 ];<span class="keyword">then</span></span><br><span class="line">		<span class="keyword">if</span> [ `expr <span class="variable">$num</span> \&gt; 0` -eq 1 ];<span class="keyword">then</span></span><br><span class="line">			<span class="keyword">for</span>((i=1;i&lt;=<span class="variable">$num</span>;i++))</span><br><span class="line">			<span class="keyword">do</span></span><br><span class="line">				sum=`expr <span class="variable">$sum</span> + <span class="variable">$i</span>`</span><br><span class="line">			<span class="keyword">done</span>	</span><br><span class="line">			<span class="built_in">echo</span> <span class="string">"1+2+3+....+<span class="variable">$num</span> = <span class="variable">$sum</span>"</span></span><br><span class="line">			<span class="built_in">exit</span></span><br><span class="line">		<span class="keyword">fi</span></span><br><span class="line">	<span class="keyword">fi</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"输入错误"</span></span><br><span class="line">	<span class="built_in">continue</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">####补充 $?:获取函数返回值或者上一个命令的退出状态</span></span><br></pre></td></tr></table></figure>
+<h3 id="bc"><a href="#bc" class="headerlink" title="bc"></a>bc</h3><ol>
+<li>运算器，主要支持浮点数运算</li>
+<li>变量scale可以设置保留位数，默认为0</li>
+<li>echo “scale=4;30.5/3.3” | bc</li>
+</ol>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><ol>
+<li><p>定义</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">name</span></span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">name</span></span>() &#123;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>调用</p>
+<ol>
+<li>直接函数名调用</li>
+<li>函数内部可以直接使用$1、$2、、、$n</li>
+<li>调用有参函数 func_name $1 $2</li>
+</ol>
+</li>
+<li>返回值<ol>
+<li>return<ol>
+<li>只能返回1-255的整数</li>
+<li>通常只是用来供其他地方调用获取状态，通常仅返回0或1；0表示成功，1表示失败</li>
+</ol>
+</li>
+<li>echo<ol>
+<li>可以返回任何字符串结果</li>
+<li>通常用于返回数据，比如一个字符串值或者列表值</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>全局变量<ol>
+<li>不做特殊声明，shell中的变量都是全局变量</li>
+<li>大型脚本程序中函数中慎用全局变量</li>
+</ol>
+</li>
+<li>局部变量<ol>
+<li>定义变量时，使用local关键字</li>
+<li>函数内外存在同名变量，则函数内部变量覆盖外部变量</li>
+</ol>
+</li>
+<li>函数库<ol>
+<li>经常使用的重复代码封装成函数文件</li>
+<li>一般不直接执行，而是由其他脚本调用</li>
+<li>库文件名的后缀建议使用.lib</li>
+<li>库文件通常没有可执行选项</li>
+<li>库文件无需和脚本在同级目录，只需在脚本中引用时指定</li>
+<li>第一行一般使用#!/bin/echo，输出警告信息，避免用户执行</li>
+</ol>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 带参数的函数调用例子</span></span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> calcu</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="variable">$2</span> <span class="keyword">in</span></span><br><span class="line">		+)</span><br><span class="line">			<span class="built_in">echo</span> <span class="string">"`expr <span class="variable">$1</span> + <span class="variable">$3</span>`"</span></span><br><span class="line">			;;</span><br><span class="line">		-)</span><br><span class="line">			<span class="built_in">echo</span> <span class="string">"`expr <span class="variable">$1</span> - <span class="variable">$3</span>`"</span></span><br><span class="line">			;;</span><br><span class="line">		\*)</span><br><span class="line">			<span class="built_in">echo</span> <span class="string">"`expr <span class="variable">$1</span> \* <span class="variable">$3</span>`"</span></span><br><span class="line">			;;</span><br><span class="line">		/)</span><br><span class="line">			<span class="built_in">echo</span> <span class="string">"`expr <span class="variable">$1</span> / <span class="variable">$3</span>`"</span></span><br><span class="line">			;;</span><br><span class="line">	<span class="keyword">esac</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">calcu <span class="variable">$1</span> <span class="variable">$2</span> <span class="variable">$3</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## echo返回值例子</span></span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> get_users</span><br><span class="line">&#123;</span><br><span class="line">	users=`cat /etc/passwd | cut -d: -f1`</span><br><span class="line">	<span class="built_in">echo</span> <span class="variable">$users</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">user_list=`get_users`</span><br><span class="line"></span><br><span class="line">index=1</span><br><span class="line"><span class="keyword">for</span> u <span class="keyword">in</span> <span class="variable">$user_list</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"The <span class="variable">$index</span> user is : <span class="variable">$u</span>"</span></span><br><span class="line">	index=$((<span class="variable">$index</span>+1))</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<h3 id="find命令"><a href="#find命令" class="headerlink" title="find命令"></a>find命令</h3><ul>
+<li>find [-H] [-L] [-P] [-D debugopts] [-Olevel] [path…] [expression]<ul>
+<li>基本命令选项-H、-L、和-P控制着对符号链接的处理方式；</li>
+<li>如果没有给定搜索路径[path…]，则默认为当前目录；</li>
+<li>如果没有给定表达式[expression]，则默认为-print，将匹配的文件输出到标准输出。</li>
+</ul>
+</li>
+<li>-name：根据文件名查找</li>
+<li>-perm：根据文件权限查找</li>
+<li>-prune：通常和-path一起使用，用于将特定的目录排除在搜索条件之外</li>
+<li>-user：根据文件属主查找</li>
+<li>-group：根据文件属组查找</li>
+<li>-mtime -n | +n：根据文件更改时间查找<ul>
+<li>-n表示文件更改时间距现在n天以内，+n表示文件更改时间距现在n天以前</li>
+</ul>
+</li>
+<li>-nogroup：查找无有效属组的文件</li>
+<li>-nouser：查找无有效属主的文件</li>
+<li>-newer file1 ! file2：查找更改时间比file1新但比file2旧的文件</li>
+<li>-type：按文件类型查找<ul>
+<li>f：文件</li>
+<li>d：目录</li>
+<li>c：字符设备文件</li>
+<li>b：块设备文件</li>
+<li>l：链接文件</li>
+<li>p：管道文件</li>
+</ul>
+</li>
+<li>-size -n +n：按文件大小查找<ul>
+<li>+n表示大于，-n表示小于</li>
+</ul>
+</li>
+<li>-mindepth n：从n级子目录开始搜索</li>
+<li>-maxdepth n：最多搜索到n级子目录</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查找文件名以docker前缀的所有文件</span></span><br><span class="line">find /usr/<span class="built_in">local</span>/app -name <span class="string">'docker*'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查找权限为777的文件</span></span><br><span class="line">find /etc -perm 777</span><br><span class="line"></span><br><span class="line"><span class="comment">#在home目录下查找出除test目录及其子目录之外的所有文件</span></span><br><span class="line">find . -path <span class="string">"./test"</span> -prune -o -<span class="built_in">print</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查找文件属主是root的所有文件</span></span><br><span class="line">find . -user root</span><br><span class="line"></span><br><span class="line"><span class="comment">#查找文件属属组是root的所有文件</span></span><br><span class="line">find . -group root</span><br><span class="line"></span><br><span class="line"><span class="comment">#查找/etc目录下最近20天内更新的所有文件</span></span><br><span class="line">find /etc -mtime -20</span><br><span class="line"></span><br><span class="line"><span class="comment">#查找home目录下所有的目录</span></span><br><span class="line">find . -<span class="built_in">type</span> d</span><br><span class="line"></span><br><span class="line"><span class="comment">#查找home目录下所有大于10M的文件</span></span><br><span class="line">find . -size +10M</span><br><span class="line"></span><br><span class="line"><span class="comment">#查找无效属主的文件</span></span><br><span class="line">find / -nouser</span><br></pre></td></tr></table></figure>
+<h3 id="find、locate、whereis、which"><a href="#find、locate、whereis、which" class="headerlink" title="find、locate、whereis、which"></a>find、locate、whereis、which</h3><ol>
+<li>locate<ol>
+<li>文件查找命令，需要安装软件包</li>
+<li>locate命令在数据库文件中查找</li>
+<li>locate默认模糊匹配</li>
+<li>可以使用updatedb命令立即更新数据库文件</li>
+</ol>
+</li>
+<li>whereis<ol>
+<li>-b：只返回二进制文件</li>
+<li>-m：只返回帮助文件</li>
+<li>-s：只返回源代码文件</li>
+</ol>
+</li>
+<li>which<ol>
+<li>-b：只返回二进制文件</li>
+</ol>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>使用场景</th>
+<th>优缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>find</td>
+<td>查找某一类文件，比如文件名部分一致</td>
+<td>功能强大，速度慢</td>
+</tr>
+<tr>
+<td>locate</td>
+<td>只能查找单个文件</td>
+<td>功能单一，速度快</td>
+</tr>
+<tr>
+<td>whereis</td>
+<td>查找程序的可执行文件、帮助文档等</td>
+<td>不常用</td>
+</tr>
+<tr>
+<td>which</td>
+<td>只查找程序的可执行文件</td>
+<td>常用于查找程序的绝对路径</td>
+</tr>
+</tbody>
+</table>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">影风</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+        <a href="/2018/05/17/文本处理三剑客/" class="next-post btn btn-default" title="文本处理三剑客">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">文本处理三剑客</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#变量替换"><span class="toc-text">变量替换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#变量测试与内容替换"><span class="toc-text">变量测试与内容替换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#计算字符串的长度"><span class="toc-text">计算字符串的长度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取子串在字符串中的索引位置"><span class="toc-text">获取子串在字符串中的索引位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#计算子串长度"><span class="toc-text">计算子串长度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#抽取子串"><span class="toc-text">抽取子串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#综合实例"><span class="toc-text">综合实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#declare-和-typeset命令"><span class="toc-text">declare 和 typeset命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数学运算"><span class="toc-text">数学运算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bc"><span class="toc-text">bc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数"><span class="toc-text">函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#find命令"><span class="toc-text">find命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#find、locate、whereis、which"><span class="toc-text">find、locate、whereis、which</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>

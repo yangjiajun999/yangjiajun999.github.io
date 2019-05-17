@@ -1,0 +1,505 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="凡所有相，皆是虚妄。若见诸相非相，即见如来">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="Shell">
+
+
+    <meta name="description" content="grep：文本过滤工具grep [option] [pattern] [file1, file2]
+
+option
+-v：不显示匹配行信息
+-i：搜索时忽略大小写
+-n：显示行号
+-r：递归搜索...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>文本处理三剑客 | 凡所有相，皆是虚妄。若见诸相非相，即见如来</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="凡所有相，皆是虚妄。若见诸相非相，即见如来" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="影风">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                 <img src="/img/branding.png" alt="Snippet 博客主题" class="img-responsive center-block" style="width:400px">
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">凡所有相，皆是虚妄。若见诸相非相，即见如来</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/推荐/"><i class="fa "></i>推荐</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/前端/"><i class="fa "></i>前端</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/后端/"><i class="fa "></i>后端</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/数据库/"><i class="fa "></i>数据库</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/运维/"><i class="fa "></i>运维</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/大数据/"><i class="fa "></i>大数据</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="文本处理三剑客">
+            
+	            文本处理三剑客
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/运维/">运维</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/Shell/">Shell</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2018/05/17</span>
+        </span>
+        
+    
+</div>
+            
+            
+            <p class="fa fa-exclamation-triangle warning">
+                本文于<strong>365</strong>天之前发表，文中内容可能已经过时。
+            </p>
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h3 id="grep：文本过滤工具"><a href="#grep：文本过滤工具" class="headerlink" title="grep：文本过滤工具"></a>grep：文本过滤工具</h3><p>grep [option] [pattern] [file1, file2]</p>
+<ul>
+<li>option<ul>
+<li>-v：不显示匹配行信息</li>
+<li>-i：搜索时忽略大小写</li>
+<li>-n：显示行号</li>
+<li>-r：递归搜索</li>
+<li>-E：支持扩展正则表达式，相当于egrep命令</li>
+<li>-F：不按正则表达式匹配,按照字符串字面意思匹配</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#输出要匹配的所有行</span></span><br><span class="line">grep root /etc/passwd</span><br><span class="line"></span><br><span class="line"><span class="comment">#输出除要匹配的之外的所有行</span></span><br><span class="line">grep -v root /etc/passwd</span><br><span class="line"></span><br><span class="line"><span class="comment">#递归搜索etc目录中所有文件</span></span><br><span class="line">grep -r -n root /etc</span><br></pre></td></tr></table></figure>
+<h3 id="sed：文本编辑工具"><a href="#sed：文本编辑工具" class="headerlink" title="sed：文本编辑工具"></a>sed：文本编辑工具</h3><p>stdout | sed [option] “pattern command”<br>sed [option] “pattern command” file</p>
+<ul>
+<li>option<ul>
+<li>-e：直接在命令行进行sed编辑，默认选项</li>
+<li>-n：只打印模式匹配行</li>
+<li>-f：编辑动作保存在文件中，指定文件执行</li>
+<li>-r：支持扩展正则表达式</li>
+<li>-i：直接修改文件内容</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>command</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>编辑命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查询</td>
+<td>p</td>
+<td>打印</td>
+</tr>
+<tr>
+<td>增加</td>
+<td>a</td>
+<td>行后追加</td>
+</tr>
+<tr>
+<td>增加</td>
+<td>i</td>
+<td>行前追加</td>
+</tr>
+<tr>
+<td>增加</td>
+<td>r</td>
+<td>外部文件读入，行后追加</td>
+</tr>
+<tr>
+<td>增加</td>
+<td>w</td>
+<td>匹配行写入外部文件</td>
+</tr>
+<tr>
+<td>删除</td>
+<td>d</td>
+<td>删除</td>
+</tr>
+<tr>
+<td>修改</td>
+<td>s/old/new</td>
+<td>将行内第一个old替换为new</td>
+</tr>
+<tr>
+<td>修改</td>
+<td>s/old/new/g</td>
+<td>将行内所有old替换为new</td>
+</tr>
+<tr>
+<td>修改</td>
+<td>s/old/new/2g</td>
+<td>将行内前2个old替换为new</td>
+</tr>
+<tr>
+<td>修改</td>
+<td>s/old/new/ig</td>
+<td>将行内所有old替换为new，且忽略大小写</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#输出文本第一行记录</span></span><br><span class="line">sed -n <span class="string">'1p'</span> test.txt</span><br><span class="line"></span><br><span class="line"><span class="comment">#将修改应用到文件中</span></span><br><span class="line">sed -i <span class="string">'1d'</span> test.txt</span><br><span class="line"></span><br><span class="line"><span class="comment">#输出所有匹配nologin的行</span></span><br><span class="line">sed -n <span class="string">'/nologin/p'</span> test.txt</span><br><span class="line"></span><br><span class="line"><span class="comment">#在所有匹配nologin的行后面追加|OK</span></span><br><span class="line">sed -i <span class="string">'/nologin/i |OK'</span> test.txt</span><br><span class="line"></span><br><span class="line"><span class="comment">#删除第一行至第五行数据</span></span><br><span class="line">sed -i <span class="string">'1,5d'</span> test.txt</span><br><span class="line"></span><br><span class="line"><span class="comment">#替换每一行所有nologin为ok</span></span><br><span class="line">sed -i <span class="string">'s/nologin/ok/ig'</span> test.txt</span><br><span class="line"></span><br><span class="line"><span class="comment">#删除配置文件中的所有注释行和空行</span></span><br><span class="line">sed -i <span class="string">'/[:blank]*#/d'</span> default.conf</span><br></pre></td></tr></table></figure>
+<h3 id="awk：文本报告生成器"><a href="#awk：文本报告生成器" class="headerlink" title="awk：文本报告生成器"></a>awk：文本报告生成器</h3><p>awk ‘BEGIN{} pattern {commands} END{}’ filename<br>standard output awk ‘BEGIN{} pattern {commands} END{}’</p>
+<ul>
+<li><p>语法格式</p>
+<ul>
+<li>BEGIN{}：正式处理数据之前执行</li>
+<li>pattern：匹配模式</li>
+<li>{commands}：处理命令，可能多行</li>
+<li>END{}：处理完所有匹配数据后执行</li>
+</ul>
+</li>
+<li><p>内置变量</p>
+<ul>
+<li>$0：整行内容</li>
+<li>$1-$n：当前行的第1-n个字段</li>
+<li>NF：当前行的字段个数，也就是有多少列</li>
+<li>NR：当前行的行号，从1开始计数</li>
+<li>FNR：多文件处理时，每个文件行号单独计数，都是从0开始</li>
+<li>FS：输入字段分隔符，默认空格或tab键</li>
+<li>RS：输入行分隔符，默认回车</li>
+<li>OFS：输出字段分隔符，默认空格</li>
+<li>ORS：输出行分隔符，默认回车</li>
+<li>FILENAME：当前输入的文件名字</li>
+<li>ARGC：命令行参数个数</li>
+<li>ARGV：命令行参数数组<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#文本内容</span></span><br><span class="line">Aaron|Abbott|Abel|Abner--Abraha|Adair|Adam|Addiso|Adolph</span><br><span class="line"></span><br><span class="line"><span class="comment">#输出整行内容</span></span><br><span class="line">awk <span class="string">'BEGIN&#123;FS="|";RS="--"&#125;&#123;print $0&#125;'</span> test.log</span><br><span class="line"></span><br><span class="line"><span class="comment">#输出每一行中的第2个字段</span></span><br><span class="line">awk <span class="string">'BEGIN&#123;FS="|";RS="--"&#125;&#123;print $2&#125;'</span> test.log</span><br><span class="line"></span><br><span class="line"><span class="comment">#将输出的每一行用&amp;连接，每个字段用:连接</span></span><br><span class="line">awk <span class="string">'BEGIN&#123;FS="|";RS="--";OFS=":";ORS="&amp;"&#125;&#123;print $1,$2,$3&#125;'</span> test.log</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>格式化输出</p>
+<ul>
+<li>%s：占位符</li>
+<li>%d：10进制数</li>
+<li>%f：浮点数</li>
+<li>%x：16进制数</li>
+<li>%o：8进制数</li>
+<li>%e：科学计数</li>
+<li>%c：单个字符的ASCII码</li>
+<li>-：左对齐</li>
+<li>+：右对齐</li>
+<li>#：8进制前面加0，16进制前面加0x</li>
+<li><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用占位符左对齐格式化输出</span></span><br><span class="line">awk <span class="string">'BEGIN&#123;FS=":"&#125; &#123;printf "%-20s %-20s\n", $1, $7&#125;'</span> /etc/passwd</span><br><span class="line"></span><br><span class="line"><span class="comment">#打印浮点数</span></span><br><span class="line">awk <span class="string">'BEGIN&#123;FS=":"&#125; &#123;printf "%0.2f\n", $3&#125;'</span> /etc/passwd</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>匹配模式</p>
+<ul>
+<li>正则匹配</li>
+<li>关系运算匹配<ul>
+<li>&lt;</li>
+<li>></li>
+<li>&lt;=</li>
+<li>>=</li>
+<li>==</li>
+<li>!=</li>
+</ul>
+</li>
+<li>布尔运算符匹配<ul>
+<li>||</li>
+<li>&amp;&amp;</li>
+<li>!</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#匹配以ssh开头的行</span></span><br><span class="line">awk <span class="string">'BEGIN&#123;FS=":"&#125; /^ssh/ &#123;print $0&#125;'</span> /etc/passwd</span><br><span class="line"></span><br><span class="line"><span class="comment">#匹配第3个字段大于50的行</span></span><br><span class="line">awk <span class="string">'BEGIN&#123;FS=":"&#125; $3 &gt; 50 &#123;print $0&#125;'</span> /etc/passwd</span><br><span class="line"></span><br><span class="line"><span class="comment">#匹配第3个字段大于10且小于50的行</span></span><br><span class="line">awk <span class="string">'BEGIN&#123;FS=":"&#125; $3 &gt; 10 &amp;&amp; $3 &lt; 50 &#123;print $0&#125;'</span> /etc/passwd</span><br></pre></td></tr></table></figure>
+<ul>
+<li>算数运算符<ul>
+<li>+</li>
+<li>-</li>
+<li>*</li>
+<li>/</li>
+<li>%</li>
+<li>^或**</li>
+<li>++x</li>
+<li>x++</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#统计/etc/services中的空白行数</span></span><br><span class="line">awk <span class="string">'/^$/ &#123;sum++&#125; END&#123;print sum&#125;'</span> /etc/services</span><br></pre></td></tr></table></figure>
+<ul>
+<li>字符串函数<ul>
+<li>length(str)：字符串长度</li>
+<li>index(str1, str2)：在str1中查找str2的位置</li>
+<li>tolower(str)：转换为小写</li>
+<li>toupper(str)：转换为大写</li>
+<li>substr(str, m, n)：从str的m个字符开始，截取m位</li>
+<li>split(str, arr, fs)：按str切割字符串，结果保存arr</li>
+<li>match(str, regex)：在str中按照正则匹配，返回位置</li>
+<li>sub(regex, reStr, str)：在str中搜索符合正则的字符串，将其替换成reStr，只替换1个</li>
+<li>gsub(regex, reStr, str)：在str中搜索符合正则的字符串，将其替换成reStr，替换所有</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#统计/etc/passwd中每一行的第一个字段的长度</span></span><br><span class="line">awk <span class="string">'BEGIN&#123;FS=":"&#125;&#123;print length($1)&#125;'</span> /etc/passwd</span><br></pre></td></tr></table></figure>
+<ul>
+<li>数组<ul>
+<li>数组下标从1开始</li>
+<li>可以使用字符串作为数据下标</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#数据遍历</span></span><br><span class="line">BEGIN &#123;</span><br><span class="line">    arr[<span class="string">"var1"</span>]=<span class="string">"kobe"</span></span><br><span class="line">    arr[<span class="string">"var2"</span>]=<span class="string">"yaoming"</span></span><br><span class="line">    arr[<span class="string">"var3"</span>]=<span class="string">"wade"</span></span><br><span class="line">    arr[<span class="string">"var4"</span>]=<span class="string">"harden"</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (ar <span class="keyword">in</span> arr) &#123;</span><br><span class="line">        <span class="built_in">print</span> arr[ar]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#统计tcp连接数</span></span><br><span class="line">netstat -an | grep tcp | awk <span class="string">'&#123;array[$6]++&#125; END&#123; for(a in array) print a, array[a]&#125;'</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>选项<ul>
+<li>-v：参数传递</li>
+<li>-f：指定脚本文件</li>
+<li>-F：指定分隔符</li>
+<li>-V：查看awk的版本号</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">num1=1</span><br><span class="line">num2=2</span><br><span class="line">awk -v num1=<span class="string">"<span class="variable">$num1</span>"</span> -v num2=<span class="string">"<span class="variable">$num2</span>"</span> <span class="string">'BEGIN&#123;print num1,num2&#125;'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#文本内容</span></span><br><span class="line">Kobe 90 70 95 60</span><br><span class="line">Yaoming 88 90 60 90</span><br><span class="line">Howard 85 95 90 95</span><br><span class="line">McGrady 90 75 90 55</span><br><span class="line"></span><br><span class="line"><span class="comment">#script.awk</span></span><br><span class="line">BEGIN &#123;</span><br><span class="line">    <span class="built_in">printf</span> <span class="string">"%-15s%-10s%-10s%-10s%-10s%-10s\n"</span>, <span class="string">"姓名"</span>, <span class="string">"进攻"</span>, <span class="string">"篮板"</span>, <span class="string">"弹跳"</span>, <span class="string">"防守"</span>, <span class="string">"综合"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    total = <span class="variable">$2</span> + <span class="variable">$3</span> + <span class="variable">$4</span> + <span class="variable">$5</span></span><br><span class="line">    avg = total / 4</span><br><span class="line">    <span class="built_in">printf</span> <span class="string">"%-15s%-10d%-10d%-10d%-10d%-0.2f\n"</span>, <span class="variable">$1</span>, <span class="variable">$2</span>, <span class="variable">$3</span>, <span class="variable">$4</span>, <span class="variable">$5</span>, avg</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>条件语句</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (表达式) &#123;</span><br><span class="line">    语句1</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (表达式) &#123;</span><br><span class="line">    语句2</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    语句3</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>循环语句</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#while循环</span></span><br><span class="line">BEGIN &#123;</span><br><span class="line">    <span class="keyword">while</span> (i &lt;= 100) &#123;</span><br><span class="line">        total += i</span><br><span class="line">        i++</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">print</span> total</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#for循环</span></span><br><span class="line">BEGIN &#123;</span><br><span class="line">    <span class="keyword">for</span>(i=0; i&lt;=100; i++) &#123;</span><br><span class="line">        total += i</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">print</span> total</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">1.根据访问IP统计UV</span><br><span class="line">awk &apos;&#123;print $1&#125;&apos; access.log | sort | uniq -c | wc -l</span><br><span class="line"></span><br><span class="line">2.统计访问URL统计PV</span><br><span class="line">awk &apos;&#123;print $7&#125;&apos; access.log | wc -l</span><br><span class="line"></span><br><span class="line">3.查询访问最频繁的URL</span><br><span class="line">awk &apos;&#123;print $7&#125;&apos; access.log | sort | uniq -c | sort -n -k 1 -r | more</span><br><span class="line"></span><br><span class="line">4.查询访问最频繁的IP</span><br><span class="line">awk &apos;&#123;print $1&#125;&apos; access.log | sort | uniq -c | sort -n -k 1 -r | more</span><br><span class="line"></span><br><span class="line">5.根据时间段统计查看日志</span><br><span class="line">cat access.log | sed -n &apos;/14\/Mar\/2015:21/, /14\/Mar\/2015:22/p&apos; | more</span><br><span class="line"></span><br><span class="line">6.统计IP访问个数（和根据访问IP统计UV一样）</span><br><span class="line">cat access.log | awk &apos;&#123;ips[$1]+=1&#125; END&#123;for(ip in ips) print ips[ip],ip&#125;&apos; | sort -nr | wc -l</span><br><span class="line"></span><br><span class="line">7.查看3点-6点之间的IP访问个数</span><br><span class="line">grep &quot;2016:0[3-6]&quot; access.log | awk &apos;&#123;ips[$1]+=1&#125; END&#123;for(ip in ips) print ips[ip],ip&#125;&apos; | sort –nr | wc -l</span><br><span class="line"></span><br><span class="line">8.查看3点-6点之间的ip访问数，并且访问数&gt;=200的ip.</span><br><span class="line">grep &apos;2016:0[3-12]&apos; access.log | awk &apos;&#123;ips[$1]+=1&#125;END&#123;for(ip in ips) if(ips[ip]&gt;=200) print ips[ip],ip&#125;&apos; | sort -nr</span><br><span class="line"></span><br><span class="line">9.查看并发连接数</span><br><span class="line">netstat -nat | grep ESTABLISHED | wc -l</span><br><span class="line"></span><br><span class="line">10.获取每分钟的请求数量，输出成csv文件</span><br><span class="line">cat access.log | awk &apos;&#123;print substr($4, 14, 5)&#125;&apos; | uniq -c | awk &apos;&#123;print $2&quot;, &quot;$1&#125;&apos; &gt; access.csv</span><br><span class="line"></span><br><span class="line">11.获取最耗时的请求时间、url、耗时，前10名, 可以修改后面的数字获取更多，不加则获取全部。</span><br><span class="line">cat /usr/local/nginx/logs/access.log | awk &apos;&#123;print $4,$7,$NF&#125;&apos; | awk -F &apos;&quot;&apos; &apos;&#123;print $1,$2,$3&#125;&apos; | sort -k3 -rn | head -10</span><br></pre></td></tr></table></figure>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">影风</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2018/05/18/Shell编程基础/" class="pre-post btn btn-default" title="Shell编程基础">
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">Shell编程基础</span>
+        </a>
+    
+    
+        <a href="/2018/04/29/CentOS搭建Redis集群/" class="next-post btn btn-default" title="CentOS搭建Redis集群">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">CentOS搭建Redis集群</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#grep：文本过滤工具"><span class="toc-text">grep：文本过滤工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sed：文本编辑工具"><span class="toc-text">sed：文本编辑工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#awk：文本报告生成器"><span class="toc-text">awk：文本报告生成器</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>
